@@ -44,14 +44,13 @@ module.exports = function(grunt) {
       }
     },
 
-    stylus: {
+    less: {
       compile: {
         options: {
-          paths: [stylesheetsDir],
-          'include css': true
+          paths: [stylesheetsDir]
         },
         files: {
-          'public/styles.css': stylesheetsDir + '/index.styl'
+          'public/styles.css': stylesheetsDir + '/index.less'
         }
       }
     },
@@ -92,8 +91,8 @@ module.exports = function(grunt) {
         }
       },
       stylesheets: {
-        files: [stylesheetsDir + '/**/*.styl', stylesheetsDir + '/**/*.css'],
-        tasks: ['stylus'],
+        files: [stylesheetsDir + '/**/*.less'],
+        tasks: ['less'],
         options: {
           interrupt: true
         }
@@ -157,7 +156,7 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-stylus');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-handlebars');
   grunt.loadNpmTasks('grunt-contrib-jade');
@@ -167,7 +166,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phonegap-build');
 
 
-  grunt.registerTask('compile', ['jade:template', 'handlebars', 'rendr_stitch', 'stylus']);
+  grunt.registerTask('compile', ['jade:template', 'handlebars', 'rendr_stitch', 'less']);
 
   // Build static clients
   grunt.registerTask('phonegap', ['compile', 'jade:client', 'compress:phonegap', 'phonegap-build']);
