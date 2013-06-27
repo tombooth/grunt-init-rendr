@@ -5,3 +5,7 @@ app/templates/compiledTemplates.js
 public/styles.css
 .DS_Store
 npm-debug.log
+dist
+app/templates/__layout.hbs
+index.html
+phonegap.zip
