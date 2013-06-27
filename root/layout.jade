@@ -1,0 +1,25 @@
+doctype 5
+html(lang="en")
+   head
+      meta(charset="utf-8")
+      title {%= name %}
+      
+      link(href=base + "styles.css", media="screen", rel="stylesheet", type="text/css")
+
+   body
+
+      section#content.container
+         if template
+            {{{body}}}
+
+      script(src=base + "mergedAssets.js")
+      if template
+         script.
+            (function() {
+               var App = window.App = new (require('app/app'))({{json appData}});
+               App.bootstrapData({{json bootstrappedData}});
+               App.start();
+            })();
+      else
+         script(src=base + "boot.js", id="boot", data-urlbase=urlBase)
+

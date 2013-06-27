@@ -43,6 +43,15 @@ exports.template = function(grunt, init, done) {
       message: 'The protocol for the API',
       default: 'https'
     },
+    {
+      name: 'rendr_url_base',
+      message: 'The base url your Rendr app will be hosted on ie http://rendrapp.com',
+    },
+    { 
+      name: 'rendr_phonegap_app_id',
+      message: 'PhoneGap unique identifier for your application, must be reverse-domain name style',
+      default: 'com.rendr.example'
+    }
   ], function(err, props) {
     props.keywords = [];
     props.dependencies = {
@@ -50,7 +59,7 @@ exports.template = function(grunt, init, done) {
       "underscore": "~1.4.4",
       "async": "~0.1.22",
       "request": "~2.16",
-      "rendr": "~0.4.7-rc.3",
+      "rendr": "git://github.com/tombooth/rendr",
       "debug": "*"
     };
     props.devDependencies = {
@@ -63,7 +72,10 @@ exports.template = function(grunt, init, done) {
       "grunt-bg-shell": "~2.0.1",
       "nodemon": "~0.7.6",
       "mocha": "~1.9.0",
-      "should": "~1.2.2"
+      "should": "~1.2.2",
+      "grunt-contrib-jade": "~0.7.0",
+      "grunt-contrib-compress": "~0.5.2",
+      "grunt-phonegap-build": "git://github.com/tombooth/grunt-phonegap-build"
     };
 
     // Files to copy (and process).

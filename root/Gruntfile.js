@@ -16,6 +16,34 @@ module.exports = function(grunt) {
       }
     },
 
+    jade: {
+      template: {
+        options: {
+          pretty: true,
+          data: {
+            template: true,
+            base: '/'
+          }
+        },
+        files: {
+          'app/templates/__layout.hbs': 'layout.jade'
+        }
+      },
+      client: {
+        options: {
+          pretty: true,
+          data: {
+            template: false,
+            urlBase: '{%= rendr_url_base %}',
+            base: ''
+          }
+        },
+        files: {
+          'index.html': 'layout.jade'
+        }
+      }
+    },
+
     stylus: {
       compile: {
         options: {
@@ -98,16 +126,51 @@ module.exports = function(grunt) {
           ]
         }]
       }
+    },
+
+    compress: {
+      phonegap: {
+        options: {
+          archive: 'phonegap.zip'
+        },
+        files: [
+          { src: 'config.xml', dest: '' },
+          { src: 'index.html', dest: '' },
+          { expand: true, cwd: 'public/', src: ['**'], dest: '' }
+        ]
+      }
+    },
+
+    'phonegap-build': {
+      main: {
+        options: {
+          archive: '<%=compress.phonegap.options.archive%>',
+          appId: '',
+          user: { email: '', password: '' },
+          keys: {
+          },
+          download: {
+          }
+        }
+      }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-handlebars');
+  grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-rendr-stitch');
+  grunt.loadNpmTasks('grunt-phonegap-build');
 
-  grunt.registerTask('compile', ['handlebars', 'rendr_stitch', 'stylus']);
+
+  grunt.registerTask('compile', ['jade:template', 'handlebars', 'rendr_stitch', 'stylus']);
+
+  // Build static clients
+  grunt.registerTask('phonegap', ['compile', 'jade:client', 'compress:phonegap', 'phonegap-build']);
 
   // Run the server and watch for file changes
   grunt.registerTask('server', ['bgShell:runNode', 'compile', 'watch']);
