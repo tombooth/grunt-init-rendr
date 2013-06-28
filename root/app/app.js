@@ -1,8 +1,12 @@
-var BaseApp = require('rendr/shared/app');
+var BaseApp = require('rendr/shared/app'),
+    syncer = require('rendr/shared/syncer');
 
 module.exports = BaseApp.extend({
-  defaults: {
-    loading: false
+
+  initialize: function(attributes, options) {
+    BaseApp.prototype.initialize.apply(this, arguments);
+
+    syncer.setClientUrlBase(options ? options.clientUrlBase : '');
   },
 
   // @client
